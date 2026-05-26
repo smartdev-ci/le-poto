@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 
-const props = defineProps<{ targetDate: Date }>()
+const props = defineProps<{ targetDate?: Date }>()
+
+// Default to June 15, 2025 if no date provided
+const targetDate = computed(() => props.targetDate || new Date('2025-06-15T18:00:00'))
 
 const now = ref(Date.now())
 let interval: ReturnType<typeof setInterval>
@@ -12,7 +15,7 @@ onMounted(() => {
 onUnmounted(() => clearInterval(interval))
 
 const diff = computed(() => {
-  const ms = props.targetDate.getTime() - now.value
+  const ms = targetDate.value.getTime() - now.value
   if (ms <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 }
   return {
     days: Math.floor(ms / 86400000),
