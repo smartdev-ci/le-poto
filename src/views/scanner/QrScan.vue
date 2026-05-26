@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
 import api from '@/services/api'
 
 const router = useRouter()
-const authStore = useAuthStore()
 const videoRef = ref<HTMLVideoElement | null>(null)
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const stream = ref<MediaStream | null>(null)
 const scanning = ref(false)
 const error = ref('')
-const torchOn = ref(false)
 let animFrame: number
 let jsQR: any = null
 

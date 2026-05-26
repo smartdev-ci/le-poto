@@ -11,7 +11,7 @@ const { generateQRUrl } = useQRCode();
 const reservations = ref<ReservationWithTickets[]>([]);
 const loading = ref(true);
 const error = ref("");
-const expandedId = ref<string | null>(null);
+const expandedId = ref<string | null | undefined>(null);
 
 onMounted(async () => {
   if (!authStore.user?.email) return;

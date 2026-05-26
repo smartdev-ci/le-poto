@@ -1,17 +1,36 @@
 ```
-# Build artifacts
+# TypeScript/JavaScript build artifacts
 *.tsbuildinfo
-dist/
-build/
+
 # Dependencies
 node_modules/
-# Editors
-.vscode/
-.idea/
-# Environment
+
+# Environment variables
 .env
 .env.local
-.env.*
+*.env.*
+
 # Logs
 *.log
+
+# Coverage reports
+coverage/
+htmlcov/
+*.coverage
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+target/
 ```

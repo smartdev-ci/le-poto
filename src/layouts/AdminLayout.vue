@@ -8,8 +8,6 @@ const route = useRoute()
 const authStore = useAuthStore()
 const sidebarOpen = ref(true)
 
-const isAdmin = computed(() => authStore.profile?.role === 'admin')
-
 const navItems = computed(() => {
   const items = [
     { icon: '⬛', label: 'Dashboard', to: '/admin/dashboard', roles: ['organizer', 'admin'] },
