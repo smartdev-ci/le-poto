@@ -1,17 +1,1 @@
-```
-# Build artifacts
-*.tsbuildinfo
-dist/
-build/
-# Dependencies
-node_modules/
-# Editors
-.vscode/
-.idea/
-# Environment
-.env
-.env.local
-.env.*
-# Logs
-*.log
-```
+Nothing should be ignored based on the provided file changes, as only a source file (EventView.vue) was modified without any build artifacts, dependencies, or temporary files being added.
