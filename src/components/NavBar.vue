@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
 const scrolled = ref(false)
 const menuOpen = ref(false)
+const authStore = useAuthStore()
 
 const navLinks = [
-  { label: 'Accueil', href: '#hero' },
-  { label: 'Événements', href: '#events' },
-  { label: 'Billetterie', href: '#tickets' },
-  { label: 'Galerie', href: '#gallery' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Accueil', href: '/' },
+  { label: 'Événement', href: '/event' },
+  { label: 'Billetterie', href: '/tickets' },
 ]
 
 function handleScroll() {
@@ -27,20 +27,41 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 <template>
   <nav :class="['navbar', { scrolled }]">
     <div class="container nav-inner">
-      <a href="#hero" class="nav-logo" @click="closeMenu">
+      <router-link to="/" class="nav-logo" @click="closeMenu">
         <span class="logo-text">LE PETIT</span>
         <span class="logo-accent">POTO</span>
-      </a>
+      </router-link>
 
       <ul class="nav-links">
         <li v-for="link in navLinks" :key="link.label">
-          <a :href="link.href">{{ link.label }}</a>
+          <router-link :to="link.href">{{ link.label }}</router-link>
         </li>
       </ul>
 
-      <a href="#tickets" class="btn-primary nav-cta">
-        Réserver
-      </a>
+      <div class="flex items-center gap-4">
+        <router-link 
+          v-if="!authStore.isAuthenticated" 
+          to="/login" 
+          class="btn-secondary text-sm px-6 py-2"
+        >
+          Se connecter
+        </router-link>
+        <div v-else class="flex items-center gap-4">
+          <router-link to="/my-orders" class="text-gray-300 hover:text-white transition-colors">
+            Mes commandes
+          </router-link>
+          <router-link 
+            v-if="authStore.profile?.role === 'organizer' || authStore.profile?.role === 'admin'"
+            to="/admin/dashboard" 
+            class="btn-primary text-sm px-6 py-2"
+          >
+            Dashboard
+          </router-link>
+        </div>
+        <router-link to="/tickets" class="btn-primary nav-cta">
+          Réserver
+        </router-link>
+      </div>
 
       <button class="hamburger" :class="{ open: menuOpen }" @click="menuOpen = !menuOpen" aria-label="Menu">
         <span></span>
@@ -52,10 +73,24 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
     <div class="mobile-menu" :class="{ open: menuOpen }">
       <ul>
         <li v-for="link in navLinks" :key="link.label">
-          <a :href="link.href" @click="closeMenu">{{ link.label }}</a>
+          <router-link :to="link.href" @click="closeMenu">{{ link.label }}</router-link>
+        </li>
+        <li v-if="!authStore.isAuthenticated">
+          <router-link to="/login" class="btn-secondary mobile-cta" @click="closeMenu">Se connecter</router-link>
+        </li>
+        <li v-else>
+          <router-link to="/my-orders" @click="closeMenu">Mes commandes</router-link>
+          <router-link 
+            v-if="authStore.profile?.role === 'organizer' || authStore.profile?.role === 'admin'"
+            to="/admin/dashboard" 
+            class="btn-primary mobile-cta" 
+            @click="closeMenu"
+          >
+            Dashboard
+          </router-link>
         </li>
         <li>
-          <a href="#tickets" class="btn-primary mobile-cta" @click="closeMenu">Réserver maintenant</a>
+          <router-link to="/tickets" class="btn-primary mobile-cta" @click="closeMenu">Réserver maintenant</router-link>
         </li>
       </ul>
     </div>

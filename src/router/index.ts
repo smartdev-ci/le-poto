@@ -27,12 +27,12 @@ const router = createRouter({
         {
           path: "login",
           name: "login",
-          component: () => import("@/views/auth/Login.vue"),
+          component: () => import("@/views/Auth/Login.vue"),
         },
         {
           path: "register",
           name: "register",
-          component: () => import("@/views/auth/Register.vue"),
+          component: () => import("@/views/Auth/Register.vue"),
         },
         {
           path: "my-orders",
